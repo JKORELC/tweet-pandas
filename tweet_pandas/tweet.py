@@ -34,7 +34,7 @@ class TweetParser(CleanseText):
         super().__init__(series)
         self._obj = series
 
-    def count_elements(self, sep: str = ";"):
+    def count_elements(self, sep: str = ";") -> Series:
         """
         Return a count of delimited elements in string.
 
