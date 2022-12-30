@@ -70,44 +70,107 @@ class TweetParser(CleanseText):
         Retrieve hashtags.
 
         Args:
-            sep (str): String separate (default: ;).
+            sep (str): Hashtag element delimiter.
 
         Returns:
             hashtags (pandas.Series): A series of hashtags, optionally delimited.
         """
         hashtags = self._obj.str.findall(HASHTAG_RULE)
-        return hashtags if not sep else hashtags.str.join(";")
+        return hashtags if not sep else hashtags.str.join(sep)
 
     def get_mentions(self, sep: str = "") -> Series:
-        """Retrieve mentions."""
+        """
+        Retrieve mentions.
+
+        Args:
+            sep (str): Mentions element delimiter.
+
+        Returns:
+            mentions (pandas.Series): A series of mentions, optionally delimited.
+        """
         mentions = self._obj.str.findall(MENTION_RULE)
         return mentions if not sep else mentions.str.join(sep)
 
-    def get_retweets(self, sep: str = "") -> Series:
-        """Retrieve retweets."""
-        retweets = self._obj.str.findall(RETWEET_RULE)
-        return retweets if not sep else retweets.str.join(";")
+    def get_retweets(self) -> Series:
+        """
+        Retrieve retweets.
+
+        Args:
+            None
+
+        Returns:
+            retweets (pandas.Series): A series of retweet mentions.
+        """
+        return self._obj.str.findall(RETWEET_RULE)
 
     def has_hashtags(self, case_sensitive: bool = False) -> bool:
-        """Flag hashtags."""
+        """
+        Flag hashtags.
+
+        Args:
+            case_sensitive (bool): Indicate use of case-sensitive match.
+
+        Returns:
+            flag (pandas.Series): A series of booleans indicating on hashtags.
+        """
         return self._obj.str.contains(HASHTAG_RULE, case=case_sensitive)
 
     def has_mentions(self, case_sensitive: bool = False) -> bool:
-        """Flag mentions."""
+        """
+        Flag mentions.
+
+        Args:
+            case_sensitive (bool): Indicate use of case-sensitive match.
+
+        Returns:
+            flag (pandas.Series): A series of booleans indicating on mentions.
+        """
         return self._obj.str.contains(MENTION_RULE, case=case_sensitive)
 
     def has_retweets(self, case_sensitive: bool = False) -> bool:
-        """Flag retweets."""
+        """
+        Flag retweets.
+
+        Args:
+            case_sensitive (bool): Indicate use of case-sensitive match.
+
+        Returns:
+            flag (pandas.Series): A series of booleans indicating retweets.
+        """
         return self._obj.str.contains(RETWEET_RULE, case=case_sensitive)
 
     def strip_hashtags(self, token: str = "") -> Series:
-        """Remove hashtags."""
+        """
+        Remove hashtags.
+
+        Args:
+            token (str): A replacement token.
+
+        Returns:
+            placeholder (pandas.Series): A series of placeholders.
+        """
         return self._obj.str.replace(HASHTAG_RULE, token, regex=True)
 
     def strip_mentions(self, token: str = "") -> Series:
-        """Remove mentions."""
+        """
+        Remove mentions.
+
+        Args:
+            token (str): A replacement token.
+
+        Returns:
+            placeholder (pandas.Series): A series of placeholders.
+        """
         return self._obj.str.replace(MENTION_RULE, token, regex=True)
 
     def strip_retweets(self, token="") -> Series:
-        """Remove retweets."""
+        """
+        Remove retweets.
+
+        Args:
+            token (str): A replacement token.
+
+        Returns:
+            placeholder (pandas.Series): A series of placeholders.
+        """
         return self._obj.str.replace(RETWEET_RULE, token, regex=True)
