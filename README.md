@@ -1,2 +1,2 @@
 # tweet-pandas
-Tweet parser using pandas extensions.
+Tweet parser using Python pandas extensions.
